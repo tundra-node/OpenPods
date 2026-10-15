@@ -50,6 +50,7 @@ public class PodsService extends Service {
     private BroadcastReceiver btReceiver = null;
     private BroadcastReceiver screenReceiver = null;
     private PodsStatusScanCallback scanCallback = null;
+    private final EarDetectionController earDetection = new EarDetectionController();
 
     /**
      * The following method (startAirPodsScanner) creates a bluetooth LE scanner.
@@ -93,6 +94,7 @@ public class PodsService extends Service {
             scanCallback = new PodsStatusScanCallback() {
                 @Override
                 public void onStatus (PodsStatus newStatus) {
+                    earDetection.onStatus(newStatus, getApplicationContext());
                     status = newStatus;
                 }
             };

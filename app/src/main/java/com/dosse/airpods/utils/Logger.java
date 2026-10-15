@@ -2,12 +2,13 @@ package com.dosse.airpods.utils;
 
 import android.util.Log;
 
-import com.dosse.airpods.BuildConfig;
-
+/**
+ * S6 fork: logging stays on in release builds too, so ear detection can be
+ * debugged on the phone directly (adb logcat -s AirPods)
+ */
 public class Logger {
 
-    // Log is only displayed if this is a debug build, not release
-    private static final boolean ENABLE_LOGGING = BuildConfig.DEBUG;
+    private static final boolean ENABLE_LOGGING = true;
     public static final String TAG = "AirPods";
 
     public static void debug (String msg) {

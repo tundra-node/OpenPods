@@ -1,5 +1,12 @@
 apply plugin: 'com.android.application'
 
+// Signing info for the S6 fork lives in keystore.properties (gitignored)
+def keystoreProps = new Properties()
+def keystorePropsFile = rootProject.file("keystore.properties")
+if (keystorePropsFile.exists()) {
+    keystorePropsFile.withInputStream { keystoreProps.load(it) }
+}
+
 android {
     namespace 'com.dosse.airpods'
 
@@ -10,10 +17,21 @@ android {
         applicationId "com.dosse.airpods"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 22
-        versionName '1.9.1'
+        versionCode 23
+        versionName '1.9.1-s6'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        if (!keystoreProps.isEmpty()) {
+            release {
+                storeFile rootProject.file(keystoreProps['storeFile'])
+                storePassword keystoreProps['storePassword']
+                keyAlias keystoreProps['keyAlias']
+                keyPassword keystoreProps['keyPassword']
+            }
+        }
     }
 
     buildTypes {
@@ -21,6 +39,9 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (!keystoreProps.isEmpty()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 

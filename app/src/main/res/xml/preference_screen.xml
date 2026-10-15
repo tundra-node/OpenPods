@@ -13,6 +13,27 @@
             android:title="@string/batterySaver"
             app:iconSpaceReserved="false" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pauseOnRemoval"
+            android:summary="@string/pauseOnRemoval_desc"
+            android:title="@string/pauseOnRemoval"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="resumeOnInsertion"
+            android:summary="@string/resumeOnInsertion_desc"
+            android:title="@string/resumeOnInsertion"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="enforcePause"
+            android:summary="@string/enforcePause_desc"
+            android:title="@string/enforcePause"
+            app:iconSpaceReserved="false" />
+
         <Preference
             android:key="restartService"
             android:summary="@string/restart_desc"

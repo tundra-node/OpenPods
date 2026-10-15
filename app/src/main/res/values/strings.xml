@@ -44,6 +44,12 @@
     <string name="settings" tools:ignore="MissingTranslation">Settings</string>
     <string name="batterySaver">Battery saver (Not recommended)</string>
     <string name="batterySaver_desc">Enable this if Bluetooth uses a lot of battery</string>
+    <string name="pauseOnRemoval">Pause when an AirPod leaves your ear</string>
+    <string name="pauseOnRemoval_desc">Music is paused the moment a pod is taken out</string>
+    <string name="resumeOnInsertion">Resume when your pods are back in</string>
+    <string name="resumeOnInsertion_desc">Play again once every pod that was removed is back in an ear</string>
+    <string name="enforcePause">Keep music paused while a pod is out</string>
+    <string name="enforcePause_desc">If playback is started while a pod is out of your ear, it gets paused again</string>
     <string name="restart" tools:ignore="MissingTranslation">Restart Service</string>
     <string name="restart_desc" tools:ignore="MissingTranslation">Do this if the notification is not showing</string>
 
