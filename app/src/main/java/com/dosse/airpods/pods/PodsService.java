@@ -47,6 +47,23 @@ import static com.dosse.airpods.utils.SharedPreferencesUtils.isSavingBattery;
  */
 public class PodsService extends Service {
 
+    /** Notification action: set the noise control mode (extra {@link #EXTRA_NOISE_MODE}). */
+    public static final String ACTION_SET_NOISE_CONTROL = "com.dosse.airpods.action.SET_NOISE_CONTROL";
+    public static final String EXTRA_NOISE_MODE = "noiseMode";
+
+    /** Settings action: toggle conversational awareness (extra {@link #EXTRA_ENABLED}). */
+    public static final String ACTION_SET_CONVERSATION_AWARENESS = "com.dosse.airpods.action.SET_CONVERSATION_AWARENESS";
+
+    /** Settings action: set the adaptive noise control strength (extra {@link #EXTRA_STRENGTH}). */
+    public static final String ACTION_SET_ADAPTIVE_STRENGTH = "com.dosse.airpods.action.SET_ADAPTIVE_STRENGTH";
+
+    /** Settings action: rename the AirPods (extra {@link #EXTRA_NAME}). */
+    public static final String ACTION_RENAME = "com.dosse.airpods.action.RENAME";
+
+    public static final String EXTRA_ENABLED = "enabled";
+    public static final String EXTRA_STRENGTH = "strength";
+    public static final String EXTRA_NAME = "name";
+
     private BluetoothLeScanner btScanner;
     private final PodsStatusRepository repository = PodsStatusRepository.getInstance();
 
@@ -392,6 +409,8 @@ public class PodsService extends Service {
 
     @Override
     public int onStartCommand (Intent intent, int flags, int startId) {
+        handleAacpAction(intent);
+
         if (n == null || !n.isAlive()) {
             n = new NotificationThread(this) {
                 @Override
@@ -403,10 +422,70 @@ public class PodsService extends Service {
                 public PodsStatus getStatus () {
                     return repository.getStatus();
                 }
+
+                @Override
+                public boolean isNoiseControlAvailable () {
+                    return aacpManager != null && aacpManager.isConnected();
+                }
+
+                @Override
+                public int getNoiseControlMode () {
+                    return lastNoiseControlMode;
+                }
             };
             n.start();
         }
         return START_STICKY;
+    }
+
+    /** Handles the actions coming from the notification and the settings. */
+    private void handleAacpAction (Intent intent) {
+        if (intent == null || intent.getAction() == null)
+            return;
+
+        try {
+            switch (intent.getAction()) {
+                case ACTION_SET_NOISE_CONTROL: {
+                    if (aacpManager != null && aacpManager.isConnected()) {
+                        int mode = intent.getIntExtra(EXTRA_NOISE_MODE, -1);
+                        Logger.debug("AACP: notification action, noise mode " + mode);
+                        if (aacpManager.setNoiseControl(mode))
+                            lastNoiseControlMode = mode;
+                    }
+                    break;
+                }
+                case ACTION_SET_CONVERSATION_AWARENESS: {
+                    if (aacpManager != null && aacpManager.isConnected()) {
+                        boolean enabled = intent.getBooleanExtra(EXTRA_ENABLED, false);
+                        Logger.debug("AACP: setting conversation awareness " + enabled);
+                        aacpManager.setConversationAwareness(enabled);
+                    }
+                    break;
+                }
+                case ACTION_SET_ADAPTIVE_STRENGTH: {
+                    if (aacpManager != null && aacpManager.isConnected()) {
+                        int strength = intent.getIntExtra(EXTRA_STRENGTH, -1);
+                        Logger.debug("AACP: setting adaptive noise strength " + strength);
+                        if (strength >= 0)
+                            aacpManager.setAdaptiveNoiseStrength(strength);
+                    }
+                    break;
+                }
+                case ACTION_RENAME: {
+                    if (aacpManager != null && aacpManager.isConnected()) {
+                        String name = intent.getStringExtra(EXTRA_NAME);
+                        Logger.debug("AACP: renaming to " + name);
+                        if (name != null && !name.isEmpty())
+                            aacpManager.rename(name);
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+        } catch (Throwable t) {
+            Logger.error(t);
+        }
     }
 
     // Foreground service for background notification (confusing I know).

@@ -34,6 +34,16 @@ public abstract class NotificationThread extends Thread {
 
     public abstract PodsStatus getStatus ();
 
+    /** Whether noise control actions can be offered (i.e. AACP is connected). */
+    public boolean isNoiseControlAvailable () {
+        return false;
+    }
+
+    /** Current noise control mode ({@link com.dosse.airpods.aacp.AacpConstants}), or -1. */
+    public int getNoiseControlMode () {
+        return -1;
+    }
+
     public NotificationThread (Context context) {
         compat = context.getPackageManager().getInstallerPackageName(context.getPackageName());
         mNotifyManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -62,7 +72,7 @@ public abstract class NotificationThread extends Thread {
                     notificationShowing = true;
                 }
                 Logger.debug(status.getAirpods().parseStatusForLogger());
-                mNotifyManager.notify(NOTIFICATION_ID, builder.build(status));
+                mNotifyManager.notify(NOTIFICATION_ID, builder.build(status, isNoiseControlAvailable(), getNoiseControlMode()));
             } else {
                 if (notificationShowing) {
                     Logger.debug("Removing notification");

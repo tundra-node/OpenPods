@@ -74,6 +74,20 @@
     <string name="showConnectCard" tools:ignore="MissingTranslation">Show connect card</string>
     <string name="showConnectCard_desc" tools:ignore="MissingTranslation">Apple-style overlay when the AirPods connect</string>
 
+    <string name="settings_noise" tools:ignore="MissingTranslation">Noise control</string>
+    <string name="noise_off" tools:ignore="MissingTranslation">Off</string>
+    <string name="noise_anc" tools:ignore="MissingTranslation">Noise Cancellation</string>
+    <string name="noise_transparency" tools:ignore="MissingTranslation">Transparency</string>
+    <string name="noise_adaptive" tools:ignore="MissingTranslation">Adaptive</string>
+
+    <string name="conversationAwareness" tools:ignore="MissingTranslation">Conversational awareness</string>
+    <string name="conversationAwareness_desc" tools:ignore="MissingTranslation">Lower the volume while you are speaking</string>
+    <string name="adaptiveStrength" tools:ignore="MissingTranslation">Adaptive noise control strength</string>
+    <string name="adaptiveStrength_desc" tools:ignore="MissingTranslation">How strongly Adaptive cancels noise</string>
+    <string name="rename" tools:ignore="MissingTranslation">Rename AirPods</string>
+    <string name="rename_desc" tools:ignore="MissingTranslation">Change the name shown on this device</string>
+    <string name="aacpUnavailable" tools:ignore="MissingTranslation">Connect your AirPods first</string>
+
     <string name="about">About</string>
     <string name="about_dev">Developed by Federico Dossena and Itai Levin</string>
     <string name="fdroid" translatable="false">F-Droid</string>

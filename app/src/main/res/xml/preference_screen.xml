@@ -79,6 +79,34 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/settings_noise"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="conversationAwareness"
+            android:summary="@string/conversationAwareness_desc"
+            android:title="@string/conversationAwareness"
+            app:iconSpaceReserved="false" />
+
+        <SeekBarPreference
+            android:defaultValue="50"
+            android:key="adaptiveStrength"
+            android:max="100"
+            android:summary="@string/adaptiveStrength_desc"
+            android:title="@string/adaptiveStrength"
+            app:iconSpaceReserved="false"
+            app:showSeekBarValue="true" />
+
+        <Preference
+            android:key="rename"
+            android:summary="@string/rename_desc"
+            android:title="@string/rename"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/about"
         app:iconSpaceReserved="false">
 

@@ -1,7 +1,9 @@
 package com.dosse.airpods.notification;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -9,6 +11,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.dosse.airpods.R;
+import com.dosse.airpods.aacp.AacpConstants;
+import com.dosse.airpods.pods.PodsService;
 import com.dosse.airpods.pods.PodsStatus;
 import com.dosse.airpods.pods.models.IPods;
 import com.dosse.airpods.pods.models.RegularPods;
@@ -21,23 +25,18 @@ public class NotificationBuilder {
     public static final int NOTIFICATION_ID = 1;
 
     private final RemoteViews[] notificationArr;
-    private final NotificationCompat.Builder mBuilder;
     private final Context appContext;
 
     public NotificationBuilder (Context context) {
         appContext = context.getApplicationContext();
         notificationArr = new RemoteViews[] {new RemoteViews(appContext.getPackageName(), R.layout.status_big), new RemoteViews(appContext.getPackageName(), R.layout.status_small)};
-
-        mBuilder = new NotificationCompat.Builder(appContext, TAG);
-        mBuilder.setShowWhen(false);
-        mBuilder.setOngoing(true);
-        mBuilder.setSmallIcon(R.mipmap.notification_icon);
-        mBuilder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-        mBuilder.setCustomContentView(notificationArr[1]);
-        mBuilder.setCustomBigContentView(notificationArr[0]);
     }
 
     public Notification build (PodsStatus status) {
+        return build(status, false, -1);
+    }
+
+    public Notification build (PodsStatus status, boolean noiseControlAvailable, int noiseControlMode) {
         /*
          * RemoteViews are inflated by System UI with the system's
          * configuration, so resource qualifiers alone can't follow the
@@ -133,7 +132,45 @@ public class NotificationBuilder {
             notification.setViewVisibility(R.id.rightInEarImg, View.INVISIBLE);
         }
 
-        return mBuilder.build();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(appContext, TAG);
+        builder.setShowWhen(false);
+        builder.setOngoing(true);
+        builder.setSmallIcon(R.mipmap.notification_icon);
+        builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+        builder.setCustomContentView(notificationArr[1]);
+        builder.setCustomBigContentView(notificationArr[0]);
+
+        if (noiseControlAvailable)
+            addNoiseControlActions(builder, noiseControlMode);
+
+        return builder.build();
+    }
+
+    /**
+     * Adds one action per noise control mode. Tapping an action starts the
+     * service with {@link PodsService#ACTION_SET_NOISE_CONTROL}, which sends
+     * the corresponding AACP control command. The active mode is prefixed
+     * with a check mark.
+     */
+    private void addNoiseControlActions (NotificationCompat.Builder builder, int currentMode) {
+        int[] modes = {AacpConstants.NOISE_OFF, AacpConstants.NOISE_ANC, AacpConstants.NOISE_TRANSPARENCY, AacpConstants.NOISE_ADAPTIVE};
+        int[] titles = {R.string.noise_off, R.string.noise_anc, R.string.noise_transparency, R.string.noise_adaptive};
+
+        for (int i = 0; i < modes.length; i++) {
+            CharSequence title = appContext.getString(titles[i]);
+
+            if (modes[i] == currentMode)
+                title = "\u2713 " + title;
+
+            Intent intent = new Intent(appContext, PodsService.class)
+                    .setAction(PodsService.ACTION_SET_NOISE_CONTROL)
+                    .putExtra(PodsService.EXTRA_NOISE_MODE, modes[i]);
+
+            PendingIntent pendingIntent = PendingIntent.getService(appContext, 100 + modes[i], intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+            builder.addAction(0, title, pendingIntent);
+        }
     }
 
     private boolean isFreshStatus (PodsStatus status) {
