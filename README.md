@@ -41,6 +41,35 @@
 * Free and Open Source software
 * Supports Dark Theme
 
+## S6 fork
+
+This branch is a fork of OpenPods tuned for a Samsung Galaxy S6 running
+Android 7 (API 24). On top of the upstream features it adds:
+
+* **Material 3 theming** with an in-app Light/Dark/System theme setting,
+  which works on Android 7 where there is no system dark mode
+* **Low battery alerts** at 20% and 10%, per component
+* **Optional connect chime**
+* **Apple-style connect card** (a floating overlay shown when the AirPods
+  connect, requires the "draw over other apps" permission)
+* **AACP over L2CAP** (the protocol Apple devices use), which gives exact
+  battery percentages (not just 5% steps), instant ear detection and
+  noise control:
+  * noise control actions directly in the ongoing notification
+    (Off / Noise Cancellation / Transparency / Adaptive)
+  * conversational awareness, adaptive noise control strength and
+    renaming from the settings
+* **Live dashboard** in the main screen with per-component battery,
+  in-ear state and the current noise control mode
+
+AACP is used opportunistically: if the L2CAP channel cannot be opened
+(accessory refused, unsupported stack, ...) the app silently falls back to
+beacon-only monitoring, which is the upstream behaviour.
+
+The AACP/L2CAP protocol details were derived from
+[LibrePods](https://github.com/librepods-org/librepods) (GPLv3), which
+reverse engineered the packets.
+
 ## Supported devices
 
 * Apple AirPods 1st gen
