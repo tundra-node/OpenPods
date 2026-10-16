@@ -7,6 +7,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.dosse.airpods.BuildConfig;
 import com.dosse.airpods.R;
 
 public class AboutActivity extends AppCompatActivity {
@@ -33,8 +34,11 @@ public class AboutActivity extends AppCompatActivity {
 
         ((WebView)(findViewById(R.id.license))).loadUrl("file:///android_asset/license.html");
 
+        ((android.widget.TextView)findViewById(R.id.version)).setText("v" + BuildConfig.VERSION_NAME);
+
         findViewById(R.id.website).setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.website_url)))));
         findViewById(R.id.github).setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_url)))));
+        findViewById(R.id.fork).setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.fork_repo_url)))));
         findViewById(R.id.donate).setOnClickListener(v -> {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.donate_url))));
             Toast.makeText(AboutActivity.this, "❤️", Toast.LENGTH_SHORT).show();

@@ -3,6 +3,24 @@
     <dimen name="padding_default" >12dp</dimen>
     <dimen name="padding_main"    >16dp</dimen>
 
+    <!-- Spacing scale -->
+    <dimen name="space_xs" >4dp</dimen>
+    <dimen name="space_s"  >8dp</dimen>
+    <dimen name="space_m"  >12dp</dimen>
+    <dimen name="space_l"  >16dp</dimen>
+    <dimen name="space_xl" >24dp</dimen>
+    <dimen name="space_xxl">32dp</dimen>
+
+    <dimen name="card_corner"     >28dp</dimen>
+    <dimen name="card_padding"    >20dp</dimen>
+    <dimen name="pill_corner"     >100dp</dimen>
+
+    <dimen name="pod_tile_img"    >64dp</dimen>
+    <dimen name="pod_bar_width"   >52dp</dimen>
+    <dimen name="pod_bar_height"  >6dp</dimen>
+    <dimen name="hero_icon"       >28dp</dimen>
+
+    <!-- Notification layouts -->
     <dimen name="noti_status_bat_size" >18dp</dimen>
 
     <dimen name="noti_status_small_item_width"  >80dp</dimen>

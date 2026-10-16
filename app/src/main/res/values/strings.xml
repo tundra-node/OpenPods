@@ -38,6 +38,12 @@
     <string name="powerbeatspro">&#8226; Powerbeats Pro</string>
 
     <string name="notConnected" tools:ignore="MissingTranslation">Not connected</string>
+    <string name="empty_title" tools:ignore="MissingTranslation">No AirPods connected</string>
+    <string name="empty_msg" tools:ignore="MissingTranslation">Pair your AirPods with this device and make sure Bluetooth is on. They will show up here automatically.</string>
+    <string name="noise_unavailable" tools:ignore="MissingTranslation">Noise control appears when the AirPods report their status over AACP. Right now the app can only see the Bluetooth LE beacon, so this is unavailable.</string>
+    <string name="fork_footer" tools:ignore="MissingTranslation">OpenPods S6 fork</string>
+    <string name="fork_repo" tools:ignore="MissingTranslation">Fork source</string>
+    <string name="fork_repo_url" translatable="false">https://github.com/tundra-node/OpenPods</string>
     <string name="supportedDevicesList" tools:ignore="MissingTranslation">&#8226; Apple AirPods 1st gen\n&#8226; Apple AirPods 2nd gen\n&#8226; Apple AirPods 3rd gen\n&#8226; Apple AirPods Pro\n&#8226; Apple AirPods Pro 2\n&#8226; Apple AirPods Max\n&#8226; Beats X\n&#8226; Beats Flex\n&#8226; Beats Solo 3\n&#8226; Beats Studio 3\n&#8226; Powerbeats 3\n&#8226; Powerbeats Pro</string>
     <string name="updatedJustNow" tools:ignore="MissingTranslation">Updated just now</string>
     <string name="updating" tools:ignore="MissingTranslation">Updating\u2026</string>

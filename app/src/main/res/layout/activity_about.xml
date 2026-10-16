@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="@dimen/padding_default"
-    android:paddingTop="@dimen/padding_default"
+    android:orientation="vertical"
     tools:context=".ui.AboutActivity"
-    tools:ignore="ContentDescription,ButtonStyle">
-
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/logo" />
+    tools:ignore="ContentDescription">
 
     <!-- LEGAL DANGER ZONE
         The following actions are a violation of the GNU GPLv3 License:
@@ -28,62 +21,130 @@
          I am constantly monitoring all major Android app stores for violations. You have been warned.
     -->
 
-    <TextView
-        android:id="@+id/about1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/logo"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:text="@string/about_dev"
-        android:textColor="?attr/colorOnSurfaceVariant" />
-
-    <TextView
-        android:id="@+id/about_fork"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/about1"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:text="@string/about_fork"
-        android:textColor="?attr/colorOnSurfaceVariant" />
-
     <LinearLayout
-        android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/about_fork"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="12dp"
-        android:gravity="center">
+        android:orientation="vertical"
+        android:paddingStart="@dimen/padding_main"
+        android:paddingTop="@dimen/padding_main"
+        android:paddingEnd="@dimen/padding_main">
 
-        <Button
-            android:id="@+id/website"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/website" />
+            android:layout_marginTop="@dimen/space_m"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/github"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/version"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/github" />
+            android:layout_marginTop="@dimen/space_xs"
+            android:gravity="center"
+            android:textAppearance="?attr/textAppearanceLabelMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            tools:text="v2.0.1-s6" />
 
-        <Button
-            android:id="@+id/donate"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/about1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#EABF80"
-            android:text="@string/donate" />
+            android:layout_marginTop="@dimen/space_l"
+            android:gravity="center"
+            android:text="@string/about_dev"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
 
+        <TextView
+            android:id="@+id/about_fork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_s"
+            android:gravity="center"
+            android:text="@string/about_fork"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_l"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/website"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_s"
+                    android:layout_weight="1"
+                    android:minHeight="44dp"
+                    android:text="@string/website" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/github"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minHeight="44dp"
+                    android:text="@string/github" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_s"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/fork"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_s"
+                    android:layout_weight="1"
+                    android:minHeight="44dp"
+                    android:text="@string/fork_repo" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/donate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minHeight="44dp"
+                    android:text="@string/donate"
+                    app:backgroundTint="@color/md_tertiary_container"
+                    app:icon="@drawable/ic_favorite"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/md_on_tertiary_container"
+                    android:textColor="@color/md_on_tertiary_container" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <WebView
         android:id="@+id/license"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/buttons" />
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_m"
+        android:layout_weight="1" />
 
     <!-- END OF LEGAL DANGER ZONE -->
 
-</RelativeLayout>
+</LinearLayout>

@@ -40,6 +40,8 @@
             android:layout_below="@id/leftPodImg"
             android:layout_centerHorizontal="true"
             android:gravity="center"
+            android:textSize="13sp"
+            android:textStyle="bold"
             android:textColor="@color/textColorPrimary" />
 
         <ImageView
@@ -94,6 +96,8 @@
             android:layout_below="@id/rightPodImg"
             android:layout_centerHorizontal="true"
             android:gravity="center"
+            android:textSize="13sp"
+            android:textStyle="bold"
             android:textColor="@color/textColorPrimary" />
 
         <ImageView
@@ -137,6 +141,8 @@
             android:layout_below="@id/podCaseImg"
             android:layout_centerHorizontal="true"
             android:gravity="center"
+            android:textSize="13sp"
+            android:textStyle="bold"
             android:textColor="@color/textColorPrimary" />
 
         <ImageView

@@ -1,31 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Material 3 tonal palette (dark), blue seed -->
-    <color name="md_primary"              >#A8C7FA</color>
-    <color name="md_on_primary"           >#062E6F</color>
-    <color name="md_primary_container"    >#0842A0</color>
-    <color name="md_on_primary_container" >#D3E3FD</color>
+    <!-- ==========================================================
+         Material 3 tonal palette (dark). Blue seed.
+         ========================================================== -->
+    <color name="md_primary"               >#ADC6FF</color>
+    <color name="md_on_primary"            >#002E69</color>
+    <color name="md_primary_container"     >#00458F</color>
+    <color name="md_on_primary_container"  >#D8E2FF</color>
 
-    <color name="md_secondary"            >#BFC6DC</color>
-    <color name="md_on_secondary"         >#283041</color>
-    <color name="md_secondary_container"  >#3E4759</color>
-    <color name="md_on_secondary_container">#DBE2F9</color>
+    <color name="md_secondary"             >#BEC6DC</color>
+    <color name="md_on_secondary"          >#283041</color>
+    <color name="md_secondary_container"   >#3E4759</color>
+    <color name="md_on_secondary_container">#DAE2F9</color>
 
-    <color name="md_surface"              >#121318</color>
-    <color name="md_on_surface"           >#E2E2E7</color>
-    <color name="md_surface_variant"      >#44474F</color>
-    <color name="md_on_surface_variant"   >#C4C6D0</color>
-    <color name="md_outline"              >#8E9099</color>
-    <color name="md_background"           >#101114</color>
+    <color name="md_tertiary"              >#8BD5C6</color>
+    <color name="md_on_tertiary"           >#003731</color>
+    <color name="md_tertiary_container"    >#005048</color>
+    <color name="md_on_tertiary_container" >#A6F2E2</color>
 
     <color name="md_error"                 >#FFB4AB</color>
-    <color name="md_on_error"             >#690005</color>
-    <color name="md_error_container"      >#93000A</color>
-    <color name="md_on_error_container"   >#FFDAD6</color>
+    <color name="md_on_error"              >#690005</color>
+    <color name="md_error_container"       >#93000A</color>
+    <color name="md_on_error_container"    >#FFDAD6</color>
 
+    <color name="md_background"            >#111318</color>
+    <color name="md_on_background"         >#E3E2E9</color>
+    <color name="md_surface"               >#111318</color>
+    <color name="md_on_surface"            >#E3E2E9</color>
+    <color name="md_surface_variant"       >#44474F</color>
+    <color name="md_on_surface_variant"    >#C4C6D0</color>
+    <color name="md_outline"               >#8E9099</color>
+    <color name="md_outline_variant"       >#44474F</color>
+
+    <!-- Surface container ramp -->
+    <color name="md_surface_container_lowest" >#0C0E13</color>
+    <color name="md_surface_container_low"    >#191C20</color>
+    <color name="md_surface_container"        >#1D2024</color>
+    <color name="md_surface_container_high"   >#282A2F</color>
+    <color name="md_surface_container_highest">#33353A</color>
+
+    <color name="md_inverse_surface"       >#E3E2E9</color>
+    <color name="md_inverse_on_surface"    >#2F3036</color>
+
+    <!-- ==========================================================
+         Semantic colors
+         ========================================================== -->
+    <color name="md_success"               >#8CD98F</color>
+    <color name="md_on_success"            >#00390F</color>
+    <color name="md_success_container"     >#0B531C</color>
+    <color name="md_on_success_container"  >#C6EFC8</color>
+
+    <color name="md_warning"               >#F0BE48</color>
+    <color name="md_warning_container"     >#6B4B00</color>
+    <color name="md_on_warning_container"  >#FFDEA8</color>
+
+    <color name="md_neutral_container"     >#44474F</color>
+    <color name="md_on_neutral_container"  >#C4C6D0</color>
+
+    <!-- Notification colors (see NotificationBuilder) -->
     <color name="textColorPrimary" >@color/md_on_surface</color>
     <color name="bgColorPrimary"   >#1C1C1E</color>
-    <color name="imageTintPrimary" >#E2E2E7</color>
+    <color name="imageTintPrimary" >#E3E2E9</color>
 
-    <color name="dgrey"            >@android:color/darker_gray</color>
+    <color name="dgrey">@android:color/darker_gray</color>
 </resources>

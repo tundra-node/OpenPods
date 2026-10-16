@@ -43,9 +43,15 @@
 
 ## S6 fork
 
-This branch is a fork of OpenPods tuned for a Samsung Galaxy S6 running
-Android 7 (API 24). On top of the upstream features it adds:
+This is a fork of OpenPods tuned for a Samsung Galaxy S6 running
+Android 7 (API 24). It lives at **https://github.com/tundra-node/OpenPods**
+(branch `s6-fork`).
 
+On top of the upstream features it adds:
+
+* **A rebuilt Material 3 interface**: top app bar, cards, per-component
+  battery bars with an in-ear badge, a proper empty state, a segmented
+  noise-control switch and restyled settings / about / permission screens
 * **Material 3 theming** with an in-app Light/Dark/System theme setting,
   which works on Android 7 where there is no system dark mode
 * **Low battery alerts** at 20% and 10%, per component

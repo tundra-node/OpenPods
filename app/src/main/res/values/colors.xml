@@ -1,36 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Material 3 tonal palette (light), blue seed -->
-    <color name="md_primary"              >#0B57D0</color>
-    <color name="md_on_primary"           >#FFFFFF</color>
-    <color name="md_primary_container"    >#D3E3FD</color>
-    <color name="md_on_primary_container" >#041E49</color>
+    <!-- ==========================================================
+         Material 3 tonal palette (light). Blue seed.
+         ========================================================== -->
+    <color name="md_primary"               >#005AC1</color>
+    <color name="md_on_primary"            >#FFFFFF</color>
+    <color name="md_primary_container"     >#D8E2FF</color>
+    <color name="md_on_primary_container"  >#001A41</color>
 
-    <color name="md_secondary"            >#575E71</color>
-    <color name="md_on_secondary"         >#FFFFFF</color>
-    <color name="md_secondary_container"  >#DBE2F9</color>
-    <color name="md_on_secondary_container">#141B2C</color>
+    <color name="md_secondary"             >#565E71</color>
+    <color name="md_on_secondary"          >#FFFFFF</color>
+    <color name="md_secondary_container"   >#DAE2F9</color>
+    <color name="md_on_secondary_container">#131C2B</color>
 
-    <color name="md_surface"              >#FAFAFC</color>
-    <color name="md_on_surface"           >#1A1B21</color>
-    <color name="md_surface_variant"      >#E1E2EC</color>
-    <color name="md_on_surface_variant"   >#44474F</color>
-    <color name="md_outline"              >#757780</color>
-    <color name="md_background"           >#FAFAFC</color>
+    <color name="md_tertiary"              >#006B5F</color>
+    <color name="md_on_tertiary"           >#FFFFFF</color>
+    <color name="md_tertiary_container"    >#A6F2E2</color>
+    <color name="md_on_tertiary_container" >#00201B</color>
 
     <color name="md_error"                 >#BA1A1A</color>
-    <color name="md_on_error"             >#FFFFFF</color>
-    <color name="md_error_container"      >#FFDAD6</color>
-    <color name="md_on_error_container"   >#410002</color>
+    <color name="md_on_error"              >#FFFFFF</color>
+    <color name="md_error_container"       >#FFDAD6</color>
+    <color name="md_on_error_container"    >#410002</color>
 
-    <!-- Colors used by the notification RemoteViews.
-         On API < 29 the notification must draw its own background, so it
-         follows the theme chosen in the app (see NotificationBuilder).
-         On API >= 29 values-v29 makes the background transparent so the
-         system styles the notification instead. -->
+    <color name="md_background"            >#FBFAFF</color>
+    <color name="md_on_background"         >#1A1B21</color>
+    <color name="md_surface"               >#FBFAFF</color>
+    <color name="md_on_surface"            >#1A1B21</color>
+    <color name="md_surface_variant"       >#E1E2EC</color>
+    <color name="md_on_surface_variant"    >#44474F</color>
+    <color name="md_outline"               >#74777F</color>
+    <color name="md_outline_variant"       >#C4C6D0</color>
+
+    <!-- Surface container ramp (M3 "surface container" roles) -->
+    <color name="md_surface_container_lowest" >#FFFFFF</color>
+    <color name="md_surface_container_low"    >#F4F3FA</color>
+    <color name="md_surface_container"        >#EFEDF4</color>
+    <color name="md_surface_container_high"   >#E9E7EF</color>
+    <color name="md_surface_container_highest">#E3E1E9</color>
+
+    <color name="md_inverse_surface"       >#2F3036</color>
+    <color name="md_inverse_on_surface"    >#F1F0F7</color>
+
+    <!-- ==========================================================
+         Semantic colors (not part of M3, used for status)
+         ========================================================== -->
+    <color name="md_success"               >#2E7D32</color>
+    <color name="md_on_success"            >#FFFFFF</color>
+    <color name="md_success_container"     >#C6EFC8</color>
+    <color name="md_on_success_container"  >#00210A</color>
+
+    <color name="md_warning"               >#8F5E00</color>
+    <color name="md_warning_container"     >#FFDEA8</color>
+    <color name="md_on_warning_container"  >#2C1700</color>
+
+    <color name="md_neutral_container"     >#E1E2EC</color>
+    <color name="md_on_neutral_container"  >#44474F</color>
+
+    <!-- ==========================================================
+         Notification colors (RemoteViews cannot resolve ?attr, so these
+         are resolved at runtime by NotificationBuilder).
+         On API < 29 the notification paints its own background and follows
+         the in-app theme; values-v29 makes it transparent instead.
+         ========================================================== -->
     <color name="textColorPrimary" >@color/md_on_surface</color>
     <color name="bgColorPrimary"   >#FFFFFF</color>
     <color name="imageTintPrimary" >#1A1B21</color>
 
-    <color name="dgrey"            >#737373</color>
+    <color name="dgrey">#737373</color>
 </resources>

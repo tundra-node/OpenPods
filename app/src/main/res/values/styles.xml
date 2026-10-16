@@ -1,32 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Material 3 with automatic day/night switching. On Android 10+ the
-         system dark mode drives it; on older devices (like the S6) the user
-         picks a theme in the app and AppCompatDelegate applies it. -->
+    <!-- ==========================================================
+         Material 3 theme.
+         Day/night is driven by AppCompatDelegate (see ThemeUtils): the S6
+         (Android 7) has no system dark mode, so the app resolves the theme
+         itself and the same theme covers every API level.
+         ========================================================== -->
     <style name="AppTheme" parent="Theme.Material3.DayNight">
         <item name="colorPrimary"              >@color/md_primary</item>
-        <item name="colorOnPrimary"             >@color/md_on_primary</item>
+        <item name="colorOnPrimary"            >@color/md_on_primary</item>
         <item name="colorPrimaryContainer"     >@color/md_primary_container</item>
-        <item name="colorOnPrimaryContainer"  >@color/md_on_primary_container</item>
+        <item name="colorOnPrimaryContainer"   >@color/md_on_primary_container</item>
 
         <item name="colorSecondary"            >@color/md_secondary</item>
-        <item name="colorOnSecondary"           >@color/md_on_secondary</item>
+        <item name="colorOnSecondary"          >@color/md_on_secondary</item>
         <item name="colorSecondaryContainer"   >@color/md_secondary_container</item>
         <item name="colorOnSecondaryContainer" >@color/md_on_secondary_container</item>
+
+        <item name="colorTertiary"             >@color/md_tertiary</item>
+        <item name="colorOnTertiary"           >@color/md_on_tertiary</item>
+        <item name="colorTertiaryContainer"    >@color/md_tertiary_container</item>
+        <item name="colorOnTertiaryContainer"  >@color/md_on_tertiary_container</item>
 
         <item name="colorSurface"              >@color/md_surface</item>
         <item name="colorOnSurface"            >@color/md_on_surface</item>
         <item name="colorSurfaceVariant"       >@color/md_surface_variant</item>
         <item name="colorOnSurfaceVariant"     >@color/md_on_surface_variant</item>
         <item name="colorOutline"              >@color/md_outline</item>
-        <item name="colorError"                 >@color/md_error</item>
-        <item name="android:colorBackground"    >@color/md_background</item>
+
+        <item name="colorError"                >@color/md_error</item>
+        <item name="colorOnError"              >@color/md_on_error</item>
+        <item name="colorErrorContainer"       >@color/md_error_container</item>
+        <item name="colorOnErrorContainer"     >@color/md_on_error_container</item>
+
+        <item name="android:colorBackground"   >@color/md_background</item>
+        <item name="colorOnBackground"         >@color/md_on_background</item>
+
+        <!-- System bars -->
+        <item name="android:statusBarColor"    >@color/md_surface</item>
+        <item name="android:navigationBarColor">@color/md_surface</item>
+        <item name="android:windowLightStatusBar">@bool/light_system_bars</item>
+        <item name="android:windowBackground"  >@color/md_background</item>
+
+        <!-- Snappier, more consistent window animations -->
+        <item name="android:windowContentTransitions" >true</item>
     </style>
 
+    <!-- Screens that draw their own toolbar -->
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- ==========================================================
+         Component styles
+         ========================================================== -->
+
+    <!-- Home cards: flat, large radius, "surface container" fill -->
+    <style name="Widget.OpenPods.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">@dimen/card_corner</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="cardBackgroundColor">@color/md_surface_container</item>
+    </style>
+
+    <style name="Widget.OpenPods.Card.Outlined" parent="Widget.OpenPods.Card">
+        <item name="cardBackgroundColor">@color/md_surface</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/md_outline_variant</item>
+    </style>
+
+    <!-- Rows inside a settings-style card -->
+    <style name="Widget.OpenPods.InfoRow" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">@dimen/space_m</item>
+        <item name="android:paddingBottom">@dimen/space_m</item>
+    </style>
+
+    <!-- The little "Connected" pill -->
+    <style name="Widget.OpenPods.Pill" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/space_m</item>
+        <item name="android:paddingEnd">@dimen/space_m</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceLabelMedium</item>
+        <item name="android:drawablePadding">@dimen/space_xs</item>
+    </style>
+
+    <style name="TextAppearance.OpenPods.Overline" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:letterSpacing">0.09</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 </resources>
