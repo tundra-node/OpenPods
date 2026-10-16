@@ -97,6 +97,7 @@
 
     <string name="about">About</string>
     <string name="about_dev">Developed by Federico Dossena and Itai Levin</string>
+    <string name="about_fork" tools:ignore="MissingTranslation">S6 fork by Elias. AACP (battery, ear detection, noise control) uses protocol details reverse engineered by LibrePods (GPLv3).</string>
     <string name="fdroid" translatable="false">F-Droid</string>
     <string name="website">Website</string>
     <string name="github" tools:ignore="MissingTranslation">Github</string>

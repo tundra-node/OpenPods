@@ -38,11 +38,21 @@
         android:text="@string/about_dev"
         android:textColor="?attr/colorOnSurfaceVariant" />
 
+    <TextView
+        android:id="@+id/about_fork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/about1"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="@string/about_fork"
+        android:textColor="?attr/colorOnSurfaceVariant" />
+
     <LinearLayout
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/about1"
+        android:layout_below="@id/about_fork"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="12dp"
         android:gravity="center">
