@@ -22,6 +22,20 @@
         app:iconSpaceReserved="false">
 
         <SwitchPreference
+            android:defaultValue="true"
+            android:key="lowBatteryAlerts"
+            android:summary="@string/lowBatteryAlerts_desc"
+            android:title="@string/lowBatteryAlerts"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="connectSound"
+            android:summary="@string/connectSound_desc"
+            android:title="@string/connectSound"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
             android:defaultValue="false"
             android:key="batterySaver"
             android:summary="@string/batterySaver_desc"

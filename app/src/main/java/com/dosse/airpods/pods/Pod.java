@@ -28,6 +28,16 @@ public class Pod {
         return (status == MAX_CONNECTED_STATUS) ? "100%" : ((status < MAX_CONNECTED_STATUS) ? ((status * 10 + 5) + "%") : "");
     }
 
+    /**
+     * Battery charge in percent (0-100), rounded to the nearest 5 like
+     * parseStatus(), or -1 if the battery level is unknown/disconnected.
+     */
+    public int getBatteryPercent () {
+        if (isDisconnected())
+            return -1;
+        return (status == MAX_CONNECTED_STATUS) ? 100 : (status * 10 + 5);
+    }
+
     public boolean isCharging () {
         return charging;
     }

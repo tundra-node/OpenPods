@@ -59,6 +59,17 @@
     <string name="restart" tools:ignore="MissingTranslation">Restart Service</string>
     <string name="restart_desc" tools:ignore="MissingTranslation">Do this if the notification is not showing</string>
 
+    <string name="alert_channel_name" tools:ignore="MissingTranslation">Low battery alerts</string>
+    <string name="alert_title" tools:ignore="MissingTranslation">AirPods battery low</string>
+    <string name="alert_left" tools:ignore="MissingTranslation">Left AirPod</string>
+    <string name="alert_right" tools:ignore="MissingTranslation">Right AirPod</string>
+    <string name="alert_case" tools:ignore="MissingTranslation">Charging case</string>
+    <string name="alert_single" tools:ignore="MissingTranslation">Headphones</string>
+    <string name="lowBatteryAlerts" tools:ignore="MissingTranslation">Low battery alerts</string>
+    <string name="lowBatteryAlerts_desc" tools:ignore="MissingTranslation">Notify when a battery drops to 20% or 10%</string>
+    <string name="connectSound" tools:ignore="MissingTranslation">Play a sound on connect</string>
+    <string name="connectSound_desc" tools:ignore="MissingTranslation">Short chime when the AirPods connect</string>
+
     <string name="about">About</string>
     <string name="about_dev">Developed by Federico Dossena and Itai Levin</string>
     <string name="fdroid" translatable="false">F-Droid</string>

@@ -22,10 +22,12 @@ import android.provider.Settings;
 import androidx.annotation.RequiresApi;
 
 import com.dosse.airpods.R;
+import com.dosse.airpods.notification.AlertManager;
 import com.dosse.airpods.notification.NotificationThread;
 import com.dosse.airpods.receivers.BluetoothListener;
 import com.dosse.airpods.receivers.BluetoothReceiver;
 import com.dosse.airpods.receivers.ScreenReceiver;
+import com.dosse.airpods.utils.ConnectChime;
 import com.dosse.airpods.utils.Logger;
 
 import java.util.Objects;
@@ -50,6 +52,9 @@ public class PodsService extends Service {
     private BroadcastReceiver screenReceiver = null;
     private PodsStatusScanCallback scanCallback = null;
     private final EarDetectionController earDetection = new EarDetectionController();
+
+    private AlertManager alertManager = null;
+    private ConnectChime connectChime = null;
 
     /**
      * The following method (startAirPodsScanner) creates a bluetooth LE scanner.
@@ -134,6 +139,13 @@ public class PodsService extends Service {
     @Override
     public void onCreate () {
         super.onCreate();
+
+        // Low battery alerts and the optional connect chime observe the
+        // repository; they are only active while the service is alive.
+        alertManager = new AlertManager(this);
+        connectChime = new ConnectChime(this);
+        repository.addListener(alertManager);
+        repository.addListener(connectChime);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             startForeground(101, createBackgroundNotification());
@@ -257,6 +269,14 @@ public class PodsService extends Service {
     @Override
     public void onDestroy () {
         super.onDestroy();
+        if (alertManager != null) {
+            repository.removeListener(alertManager);
+            alertManager = null;
+        }
+        if (connectChime != null) {
+            repository.removeListener(connectChime);
+            connectChime = null;
+        }
         unregisterBtReceiver();
         unregisterScreenReceiver();
     }
