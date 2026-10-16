@@ -26,6 +26,16 @@ public class SharedPreferencesUtils {
         return prefs.getBoolean("enforcePause", true);
     }
 
+    /**
+     * How long (in seconds) an in-ear change has to hold before it is acted
+     * upon. Beacons are noisy, so a pod that is only briefly bumped otherwise
+     * makes the music stutter.
+     */
+    public static int getEarConfirmationDelay (Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getInt("earConfirmationDelay", 2);
+    }
+
     public static String getThemeMode (Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString("theme", "system");

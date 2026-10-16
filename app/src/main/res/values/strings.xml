@@ -70,6 +70,8 @@
     <string name="resumeOnInsertion_desc">Play again once every pod that was removed is back in an ear</string>
     <string name="enforcePause">Keep music paused while a pod is out</string>
     <string name="enforcePause_desc">If playback is started while a pod is out of your ear, it gets paused again</string>
+    <string name="earConfirmationDelay" tools:ignore="MissingTranslation">Confirmation delay</string>
+    <string name="earConfirmationDelay_desc" tools:ignore="MissingTranslation">Seconds an in/out change has to hold before the music pauses or resumes</string>
     <string name="restart" tools:ignore="MissingTranslation">Restart Service</string>
     <string name="restart_desc" tools:ignore="MissingTranslation">Do this if the notification is not showing</string>
 

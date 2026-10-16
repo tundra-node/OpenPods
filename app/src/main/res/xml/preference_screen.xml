@@ -92,6 +92,17 @@
             app:iconSpaceReserved="true"
             app:singleLineTitle="false" />
 
+        <SeekBarPreference
+            android:defaultValue="2"
+            android:icon="@drawable/ic_timer"
+            android:key="earConfirmationDelay"
+            android:max="5"
+            android:summary="@string/earConfirmationDelay_desc"
+            android:title="@string/earConfirmationDelay"
+            app:iconSpaceReserved="true"
+            app:showSeekBarValue="true"
+            app:singleLineTitle="false" />
+
         <Preference
             android:icon="@drawable/ic_refresh"
             android:key="restartService"

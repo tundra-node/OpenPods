@@ -65,6 +65,9 @@ On top of the upstream features it adds:
     (Off / Noise Cancellation / Transparency / Adaptive)
   * conversational awareness, adaptive noise control strength and
     renaming from the settings
+* **Pause/resume on ear detection** with a configurable confirmation delay,
+  so a pod that is only bumped or briefly adjusted does not make the music
+  stutter
 * **Live dashboard** in the main screen with per-component battery,
   in-ear state and the current noise control mode
 
