@@ -22,6 +22,7 @@ import java.io.OutputStream;
 public class AacpManager {
 
     private static final long CONNECT_TIMEOUT_MS = 5000;
+    private static final long RECONNECT_DELAY_MS = 3000;
     private static final int MAX_CONNECT_ATTEMPTS = 4;
     private static final long[] RETRY_DELAYS_MS = {0, 2000, 5000, 10000};
 
@@ -224,7 +225,17 @@ public class AacpManager {
         handleDisconnect();
 
         if (wasConnected && !stopped) {
-            // Accessory dropped us; try again while it's still around
+            // Accessory dropped us; back off a little before trying again so a
+            // flapping link cannot spin in a tight reconnect loop.
+            try {
+                Thread.sleep(RECONNECT_DELAY_MS);
+            } catch (InterruptedException e) {
+                return;
+            }
+
+            if (stopped)
+                return;
+
             connecting = false;
             connect(device);
         }
@@ -312,7 +323,8 @@ public class AacpManager {
     }
 
     public boolean setAdaptiveNoiseStrength (int strength) {
-        int value = Math.max(0, Math.min(255, strength));
+        // Documented range for the AutoANC Strength control command is 0-100.
+        int value = Math.max(0, Math.min(100, strength));
         return send(AacpPackets.controlCommand(AacpConstants.CC_AUTO_ANC_STRENGTH, (byte)value));
     }
 
