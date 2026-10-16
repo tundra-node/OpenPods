@@ -37,6 +37,11 @@
     <string name="powerbeats3">&#8226; Powerbeats 3</string>
     <string name="powerbeatspro">&#8226; Powerbeats Pro</string>
 
+    <string name="notConnected" tools:ignore="MissingTranslation">Not connected</string>
+    <string name="supportedDevicesList" tools:ignore="MissingTranslation">&#8226; Apple AirPods 1st gen\n&#8226; Apple AirPods 2nd gen\n&#8226; Apple AirPods 3rd gen\n&#8226; Apple AirPods Pro\n&#8226; Apple AirPods Pro 2\n&#8226; Apple AirPods Max\n&#8226; Beats X\n&#8226; Beats Flex\n&#8226; Beats Solo 3\n&#8226; Beats Studio 3\n&#8226; Powerbeats 3\n&#8226; Powerbeats Pro</string>
+    <string name="updatedJustNow" tools:ignore="MissingTranslation">Updated just now</string>
+    <string name="updating" tools:ignore="MissingTranslation">Updating\u2026</string>
+
     <string name="miui_warning" tools:ignore="MissingTranslation">MIUI detected</string>
     <string name="miui_warning_desc" tools:ignore="MissingTranslation">The ROM running on this device has known compatibility issues. You can continue but OpenPods may not work properly.</string>
     <string name="miui_warning_continue" tools:ignore="MissingTranslation">Continue</string>
@@ -75,6 +80,8 @@
     <string name="showConnectCard_desc" tools:ignore="MissingTranslation">Apple-style overlay when the AirPods connect</string>
 
     <string name="settings_noise" tools:ignore="MissingTranslation">Noise control</string>
+    <string name="settings_notifications" tools:ignore="MissingTranslation">Notifications</string>
+    <string name="settings_behavior" tools:ignore="MissingTranslation">Behavior</string>
     <string name="noise_off" tools:ignore="MissingTranslation">Off</string>
     <string name="noise_anc" tools:ignore="MissingTranslation">Noise Cancellation</string>
     <string name="noise_transparency" tools:ignore="MissingTranslation">Transparency</string>

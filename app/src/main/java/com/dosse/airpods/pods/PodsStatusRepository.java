@@ -25,6 +25,13 @@ public class PodsStatusRepository {
         /** Called on the main thread when the AirPods connect or disconnect. */
         default void onConnectionChanged (boolean connected) {
         }
+
+        /**
+         * Called on the main thread when the AACP connection state or the
+         * noise control mode changes.
+         */
+        default void onAacpStateChanged (boolean aacpConnected, int noiseControlMode) {
+        }
     }
 
     private static final PodsStatusRepository instance = new PodsStatusRepository();
@@ -39,6 +46,8 @@ public class PodsStatusRepository {
 
     private PodsStatus status = PodsStatus.DISCONNECTED;
     private boolean maybeConnected = false;
+    private boolean aacpConnected = false;
+    private int noiseControlMode = -1;
 
     public PodsStatus getStatus () {
         synchronized (lock) {
@@ -49,6 +58,33 @@ public class PodsStatusRepository {
     public boolean isMaybeConnected () {
         synchronized (lock) {
             return maybeConnected;
+        }
+    }
+
+    public boolean isAacpConnected () {
+        synchronized (lock) {
+            return aacpConnected;
+        }
+    }
+
+    public int getNoiseControlMode () {
+        synchronized (lock) {
+            return noiseControlMode;
+        }
+    }
+
+    /** Updates the AACP state; notifies listeners when either value changes. */
+    public void setAacpState (boolean connected, int mode) {
+        boolean changed;
+        synchronized (lock) {
+            changed = aacpConnected != connected || noiseControlMode != mode;
+            aacpConnected = connected;
+            noiseControlMode = connected ? mode : -1;
+        }
+
+        if (changed) {
+            Logger.debug("REPOSITORY: aacpConnected=" + connected + " noiseControlMode=" + noiseControlMode);
+            notifyAacpStateChanged();
         }
     }
 
@@ -124,6 +160,28 @@ public class PodsStatusRepository {
             for (Listener l : snapshot) {
                 try {
                     l.onConnectionChanged(connected);
+                } catch (Throwable t) {
+                    Logger.error(t);
+                }
+            }
+        });
+    }
+
+    private void notifyAacpStateChanged () {
+        Set<Listener> snapshot;
+        final boolean connected;
+        final int mode;
+
+        synchronized (lock) {
+            snapshot = new HashSet<>(listeners);
+            connected = aacpConnected;
+            mode = noiseControlMode;
+        }
+
+        mainHandler.post(() -> {
+            for (Listener l : snapshot) {
+                try {
+                    l.onAacpStateChanged(connected, mode);
                 } catch (Throwable t) {
                     Logger.error(t);
                 }

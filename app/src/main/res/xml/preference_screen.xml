@@ -18,7 +18,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/app_name"
+        android:title="@string/settings_notifications"
         app:iconSpaceReserved="false">
 
         <SwitchPreference
@@ -41,6 +41,12 @@
             android:summary="@string/connectSound_desc"
             android:title="@string/connectSound"
             app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_behavior"
+        app:iconSpaceReserved="false">
 
         <SwitchPreference
             android:defaultValue="false"

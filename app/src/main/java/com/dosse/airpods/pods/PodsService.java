@@ -194,11 +194,13 @@ public class PodsService extends Service {
             @Override
             public void onAacpConnected () {
                 Logger.debug("AACP: connected, switching to exact data");
+                repository.setAacpState(true, lastNoiseControlMode);
             }
 
             @Override
             public void onAacpDisconnected () {
                 Logger.debug("AACP: disconnected, falling back to beacons");
+                repository.setAacpState(false, -1);
             }
 
             @Override
@@ -227,6 +229,7 @@ public class PodsService extends Service {
             @Override
             public void onNoiseControl (int mode) {
                 lastNoiseControlMode = mode;
+                repository.setAacpState(true, mode);
             }
 
             @Override
@@ -449,8 +452,10 @@ public class PodsService extends Service {
                     if (aacpManager != null && aacpManager.isConnected()) {
                         int mode = intent.getIntExtra(EXTRA_NOISE_MODE, -1);
                         Logger.debug("AACP: notification action, noise mode " + mode);
-                        if (aacpManager.setNoiseControl(mode))
+                        if (aacpManager.setNoiseControl(mode)) {
                             lastNoiseControlMode = mode;
+                            repository.setAacpState(true, mode);
+                        }
                     }
                     break;
                 }
