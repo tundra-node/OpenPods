@@ -23,6 +23,7 @@ import androidx.annotation.RequiresApi;
 
 import com.dosse.airpods.R;
 import com.dosse.airpods.notification.AlertManager;
+import com.dosse.airpods.notification.ConnectCard;
 import com.dosse.airpods.notification.NotificationThread;
 import com.dosse.airpods.receivers.BluetoothListener;
 import com.dosse.airpods.receivers.BluetoothReceiver;
@@ -55,6 +56,7 @@ public class PodsService extends Service {
 
     private AlertManager alertManager = null;
     private ConnectChime connectChime = null;
+    private ConnectCard connectCard = null;
 
     /**
      * The following method (startAirPodsScanner) creates a bluetooth LE scanner.
@@ -144,8 +146,10 @@ public class PodsService extends Service {
         // repository; they are only active while the service is alive.
         alertManager = new AlertManager(this);
         connectChime = new ConnectChime(this);
+        connectCard = new ConnectCard(this);
         repository.addListener(alertManager);
         repository.addListener(connectChime);
+        repository.addListener(connectCard);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             startForeground(101, createBackgroundNotification());
@@ -276,6 +280,10 @@ public class PodsService extends Service {
         if (connectChime != null) {
             repository.removeListener(connectChime);
             connectChime = null;
+        }
+        if (connectCard != null) {
+            repository.removeListener(connectCard);
+            connectCard = null;
         }
         unregisterBtReceiver();
         unregisterScreenReceiver();

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">OpenPods</string>
+    <string name="connected" tools:ignore="MissingTranslation">Connected</string>
+    <string name="in_ear" tools:ignore="MissingTranslation">In ear</string>
 
     <string name="bg_noti_channel" translatable="false">Background Notification</string>
     <string name="bg_noti_title" tools:ignore="MissingTranslation">Running in the background</string>
@@ -69,6 +71,8 @@
     <string name="lowBatteryAlerts_desc" tools:ignore="MissingTranslation">Notify when a battery drops to 20% or 10%</string>
     <string name="connectSound" tools:ignore="MissingTranslation">Play a sound on connect</string>
     <string name="connectSound_desc" tools:ignore="MissingTranslation">Short chime when the AirPods connect</string>
+    <string name="showConnectCard" tools:ignore="MissingTranslation">Show connect card</string>
+    <string name="showConnectCard_desc" tools:ignore="MissingTranslation">Apple-style overlay when the AirPods connect</string>
 
     <string name="about">About</string>
     <string name="about_dev">Developed by Federico Dossena and Itai Levin</string>
