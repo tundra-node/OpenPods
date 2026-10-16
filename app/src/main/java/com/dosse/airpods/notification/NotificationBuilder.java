@@ -2,15 +2,18 @@ package com.dosse.airpods.notification;
 
 import android.app.Notification;
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.dosse.airpods.R;
 import com.dosse.airpods.pods.PodsStatus;
 import com.dosse.airpods.pods.models.IPods;
 import com.dosse.airpods.pods.models.RegularPods;
 import com.dosse.airpods.pods.models.SinglePods;
+import com.dosse.airpods.utils.ThemeUtils;
 
 public class NotificationBuilder {
     public static final String TAG = "AirPods";
@@ -19,11 +22,13 @@ public class NotificationBuilder {
 
     private final RemoteViews[] notificationArr;
     private final NotificationCompat.Builder mBuilder;
+    private final Context appContext;
 
     public NotificationBuilder (Context context) {
-        notificationArr = new RemoteViews[] {new RemoteViews(context.getPackageName(), R.layout.status_big), new RemoteViews(context.getPackageName(), R.layout.status_small)};
+        appContext = context.getApplicationContext();
+        notificationArr = new RemoteViews[] {new RemoteViews(appContext.getPackageName(), R.layout.status_big), new RemoteViews(appContext.getPackageName(), R.layout.status_small)};
 
-        mBuilder = new NotificationCompat.Builder(context, TAG);
+        mBuilder = new NotificationCompat.Builder(appContext, TAG);
         mBuilder.setShowWhen(false);
         mBuilder.setOngoing(true);
         mBuilder.setSmallIcon(R.mipmap.notification_icon);
@@ -33,6 +38,37 @@ public class NotificationBuilder {
     }
 
     public Notification build (PodsStatus status) {
+        /*
+         * RemoteViews are inflated by System UI with the system's
+         * configuration, so resource qualifiers alone can't follow the
+         * in-app theme on Android 7 (which has no system dark mode).
+         * Colors are therefore resolved here and applied explicitly.
+         *
+         * On API >= 29 the system styles the notification background, so
+         * only the in-app icon tint follows the system there.
+         */
+        boolean dark = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                ? ThemeUtils.isSystemDark(appContext)
+                : ThemeUtils.isDark(appContext);
+        Context themed = ThemeUtils.nightConfigured(appContext, dark);
+
+        int bgColor = ContextCompat.getColor(themed, R.color.bgColorPrimary);
+        int textColor = ContextCompat.getColor(themed, R.color.textColorPrimary);
+        int imageTint = ContextCompat.getColor(themed, R.color.imageTintPrimary);
+
+        for (RemoteViews notification : notificationArr) {
+            notification.setInt(R.id.notiRoot, "setBackgroundColor", bgColor);
+            notification.setTextColor(R.id.leftPodText, textColor);
+            notification.setTextColor(R.id.rightPodText, textColor);
+            notification.setTextColor(R.id.podCaseText, textColor);
+
+            // The pod images are dark silhouettes; tint them light in dark mode
+            notification.setInt(R.id.leftPodImg, "setColorFilter", imageTint);
+            notification.setInt(R.id.rightPodImg, "setColorFilter", imageTint);
+            notification.setInt(R.id.podCaseImg, "setColorFilter", imageTint);
+            notification.setInt(R.id.leftInEarImg, "setColorFilter", imageTint);
+            notification.setInt(R.id.rightInEarImg, "setColorFilter", imageTint);
+        }
 
         IPods airpods = status.getAirpods();
         boolean single = airpods.isSingle();

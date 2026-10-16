@@ -26,4 +26,24 @@ public class SharedPreferencesUtils {
         return prefs.getBoolean("enforcePause", true);
     }
 
+    public static String getThemeMode (Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString("theme", "system");
+    }
+
+    public static boolean isShowingConnectCard (Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean("showConnectCard", true);
+    }
+
+    public static boolean isPlayingSoundOnConnect (Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean("connectSound", false);
+    }
+
+    public static boolean isShowingLowBatteryAlerts (Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean("lowBatteryAlerts", true);
+    }
+
 }

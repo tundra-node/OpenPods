@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary"     >#448AFF</color>
-    <color name="colorPrimaryDark" >#0D47A1</color>
-    <color name="colorAccent"      >#448AFF</color>
+    <!-- Material 3 tonal palette (light), blue seed -->
+    <color name="md_primary"              >#0B57D0</color>
+    <color name="md_on_primary"           >#FFFFFF</color>
+    <color name="md_primary_container"    >#D3E3FD</color>
+    <color name="md_on_primary_container" >#041E49</color>
 
-    <color name="textColorPrimary" >@android:color/primary_text_light</color>
-    <color name="bgColorPrimary"   >#FFF</color>
+    <color name="md_secondary"            >#575E71</color>
+    <color name="md_on_secondary"         >#FFFFFF</color>
+    <color name="md_secondary_container"  >#DBE2F9</color>
+    <color name="md_on_secondary_container">#141B2C</color>
+
+    <color name="md_surface"              >#FAFAFC</color>
+    <color name="md_on_surface"           >#1A1B21</color>
+    <color name="md_surface_variant"      >#E1E2EC</color>
+    <color name="md_on_surface_variant"   >#44474F</color>
+    <color name="md_outline"              >#757780</color>
+    <color name="md_background"           >#FAFAFC</color>
+
+    <color name="md_error"                 >#BA1A1A</color>
+    <color name="md_on_error"             >#FFFFFF</color>
+    <color name="md_error_container"      >#FFDAD6</color>
+    <color name="md_on_error_container"   >#410002</color>
+
+    <!-- Colors used by the notification RemoteViews.
+         On API < 29 the notification must draw its own background, so it
+         follows the theme chosen in the app (see NotificationBuilder).
+         On API >= 29 values-v29 makes the background transparent so the
+         system styles the notification instead. -->
+    <color name="textColorPrimary" >@color/md_on_surface</color>
+    <color name="bgColorPrimary"   >#FFFFFF</color>
+    <color name="imageTintPrimary" >#1A1B21</color>
 
     <color name="dgrey"            >#737373</color>
 </resources>

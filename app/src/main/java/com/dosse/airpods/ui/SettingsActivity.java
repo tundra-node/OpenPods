@@ -9,6 +9,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.dosse.airpods.BuildConfig;
 import com.dosse.airpods.R;
 import com.dosse.airpods.receivers.StartupReceiver;
+import com.dosse.airpods.utils.ThemeUtils;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -27,6 +28,12 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences (Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.preference_screen, rootKey);
+
+            // Re-apply the theme immediately when the user changes it.
+            getPreference("theme").setOnPreferenceChangeListener((preference, newValue) -> {
+                ThemeUtils.applyThemeMode((String)newValue);
+                return true;
+            });
 
             getPreference("batterySaver").setOnPreferenceClickListener(preference -> {
                 StartupReceiver.restartPodsService(requireContext());

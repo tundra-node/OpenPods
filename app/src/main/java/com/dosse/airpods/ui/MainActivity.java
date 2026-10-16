@@ -5,11 +5,16 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.util.TypedValue;
+
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.dosse.airpods.R;
 import com.dosse.airpods.receivers.StartupReceiver;
@@ -46,6 +51,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu (Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        // The gear icon is white; tint it to stay visible on the
+        // theme-colored action bar in both light and dark mode.
+        MenuItem item = menu.findItem(R.id.menu_ab_settings);
+        if (item != null && item.getIcon() != null) {
+            TypedValue tv = new TypedValue();
+            getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, tv, true);
+            item.getIcon().mutate().setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(this, tv.resourceId), PorterDuff.Mode.SRC_IN));
+        }
         return true;
     }
 

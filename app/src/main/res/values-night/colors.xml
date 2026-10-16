@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary"     >#448AFF</color>
-    <color name="colorPrimaryDark" >#0D47A1</color>
-    <color name="colorAccent"      >#448AFF</color>
+    <!-- Material 3 tonal palette (dark), blue seed -->
+    <color name="md_primary"              >#A8C7FA</color>
+    <color name="md_on_primary"           >#062E6F</color>
+    <color name="md_primary_container"    >#0842A0</color>
+    <color name="md_on_primary_container" >#D3E3FD</color>
 
-    <color name="textColorPrimary" >@android:color/primary_text_dark</color>
-    <color name="bgColorPrimary"   >#000</color>
+    <color name="md_secondary"            >#BFC6DC</color>
+    <color name="md_on_secondary"         >#283041</color>
+    <color name="md_secondary_container"  >#3E4759</color>
+    <color name="md_on_secondary_container">#DBE2F9</color>
+
+    <color name="md_surface"              >#121318</color>
+    <color name="md_on_surface"           >#E2E2E7</color>
+    <color name="md_surface_variant"      >#44474F</color>
+    <color name="md_on_surface_variant"   >#C4C6D0</color>
+    <color name="md_outline"              >#8E9099</color>
+    <color name="md_background"           >#101114</color>
+
+    <color name="md_error"                 >#FFB4AB</color>
+    <color name="md_on_error"             >#690005</color>
+    <color name="md_error_container"      >#93000A</color>
+    <color name="md_on_error_container"   >#FFDAD6</color>
+
+    <color name="textColorPrimary" >@color/md_on_surface</color>
+    <color name="bgColorPrimary"   >#1C1C1E</color>
+    <color name="imageTintPrimary" >#E2E2E7</color>
 
     <color name="dgrey"            >@android:color/darker_gray</color>
 </resources>

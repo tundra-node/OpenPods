@@ -42,6 +42,12 @@
     <string name="noBtText">It looks like this device doesn\'t have Bluetooth LE</string>
 
     <string name="settings" tools:ignore="MissingTranslation">Settings</string>
+    <string name="settings_appearance" tools:ignore="MissingTranslation">Appearance</string>
+    <string name="theme_title" tools:ignore="MissingTranslation">Theme</string>
+    <string name="theme_system" tools:ignore="MissingTranslation">Follow system</string>
+    <string name="theme_light" tools:ignore="MissingTranslation">Light</string>
+    <string name="theme_dark" tools:ignore="MissingTranslation">Dark</string>
+    <string name="theme_battery" tools:ignore="MissingTranslation">Dark when battery saver is on</string>
     <string name="batterySaver">Battery saver (Not recommended)</string>
     <string name="batterySaver_desc">Enable this if Bluetooth uses a lot of battery</string>
     <string name="pauseOnRemoval">Pause when an AirPod leaves your ear</string>
