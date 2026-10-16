@@ -42,10 +42,9 @@ import static com.dosse.airpods.utils.SharedPreferencesUtils.isSavingBattery;
 public class PodsService extends Service {
 
     private BluetoothLeScanner btScanner;
-    private PodsStatus status = PodsStatus.DISCONNECTED;
+    private final PodsStatusRepository repository = PodsStatusRepository.getInstance();
 
     private static NotificationThread n = null;
-    private static boolean maybeConnected = false;
 
     private BroadcastReceiver btReceiver = null;
     private BroadcastReceiver screenReceiver = null;
@@ -95,7 +94,7 @@ public class PodsService extends Service {
                 @Override
                 public void onStatus (PodsStatus newStatus) {
                     earDetection.onStatus(newStatus, getApplicationContext());
-                    status = newStatus;
+                    repository.setStatus(newStatus);
                 }
             };
 
@@ -114,7 +113,7 @@ public class PodsService extends Service {
                 btScanner.stopScan(scanCallback);
                 scanCallback = null;
             }
-            status = PodsStatus.DISCONNECTED;
+            repository.setStatus(PodsStatus.DISCONNECTED);
         } catch (Throwable t) {
             Logger.error(t);
         }
@@ -153,7 +152,7 @@ public class PodsService extends Service {
             public void onStop () {
                 // Bluetooth turned off, stop scanner and remove notification.
                 Logger.debug("BT OFF");
-                maybeConnected = false;
+                repository.setMaybeConnected(false);
                 stopAirPodsScanner();
             }
 
@@ -163,7 +162,7 @@ public class PodsService extends Service {
                 if (checkUUID(bluetoothDevice)) {
                     // Airpods connected, show notification.
                     Logger.debug("ACL CONNECTED");
-                    maybeConnected = true;
+                    repository.setMaybeConnected(true);
                 }
             }
 
@@ -173,7 +172,7 @@ public class PodsService extends Service {
                 if (checkUUID(bluetoothDevice)) {
                     // Airpods disconnected, remove notification but leave the scanner going.
                     Logger.debug("ACL DISCONNECTED");
-                    maybeConnected = false;
+                    repository.setMaybeConnected(false);
                 }
             }
         };
@@ -194,7 +193,7 @@ public class PodsService extends Service {
 
                 if (checkUUID(device)) {
                     Logger.debug("BT PROXY: AIRPODS ALREADY CONNECTED");
-                    maybeConnected = true;
+                    repository.setMaybeConnected(true);
                     return true;
                 }
 
@@ -204,7 +203,7 @@ public class PodsService extends Service {
             @Override
             public void onDisconnect () {
                 Logger.debug("BT PROXY SERVICE DISCONNECTED ");
-                maybeConnected = false;
+                repository.setMaybeConnected(false);
             }
         }, BluetoothProfile.HEADSET);
 
@@ -268,12 +267,12 @@ public class PodsService extends Service {
             n = new NotificationThread(this) {
                 @Override
                 public boolean isConnected () {
-                    return maybeConnected;
+                    return repository.isMaybeConnected();
                 }
 
                 @Override
                 public PodsStatus getStatus () {
-                    return status;
+                    return repository.getStatus();
                 }
             };
             n.start();
