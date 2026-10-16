@@ -24,12 +24,10 @@ public class NotificationBuilder {
     public static final long TIMEOUT_CONNECTED = 30000;
     public static final int NOTIFICATION_ID = 1;
 
-    private final RemoteViews[] notificationArr;
     private final Context appContext;
 
     public NotificationBuilder (Context context) {
         appContext = context.getApplicationContext();
-        notificationArr = new RemoteViews[] {new RemoteViews(appContext.getPackageName(), R.layout.status_big), new RemoteViews(appContext.getPackageName(), R.layout.status_small)};
     }
 
     public Notification build (PodsStatus status) {
@@ -50,6 +48,15 @@ public class NotificationBuilder {
                 ? ThemeUtils.isSystemDark(appContext)
                 : ThemeUtils.isDark(appContext);
         Context themed = ThemeUtils.nightConfigured(appContext, dark);
+
+        // Build the views from scratch on every refresh. RemoteViews.set*() appends
+        // an action instead of replacing it, so reusing an instance would grow it by
+        // roughly 3 KB per update until the notification exceeds the 1 MB Binder
+        // limit and NotificationManager.notify() throws TransactionTooLargeException.
+        RemoteViews[] notificationArr = {
+                new RemoteViews(appContext.getPackageName(), R.layout.status_big),
+                new RemoteViews(appContext.getPackageName(), R.layout.status_small)
+        };
 
         int bgColor = ContextCompat.getColor(themed, R.color.bgColorPrimary);
         int textColor = ContextCompat.getColor(themed, R.color.textColorPrimary);
