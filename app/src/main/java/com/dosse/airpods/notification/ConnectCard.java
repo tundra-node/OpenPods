@@ -2,6 +2,7 @@ package com.dosse.airpods.notification;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.content.ContextCompat;
 
 import com.dosse.airpods.R;
@@ -25,6 +27,7 @@ import com.dosse.airpods.pods.models.AirPods3;
 import com.dosse.airpods.pods.models.AirPodsMax;
 import com.dosse.airpods.pods.models.AirPodsPro;
 import com.dosse.airpods.pods.models.AirPodsPro2;
+import com.dosse.airpods.pods.models.AirPodsPro3;
 import com.dosse.airpods.pods.models.BeatsFlex;
 import com.dosse.airpods.pods.models.BeatsSolo3;
 import com.dosse.airpods.pods.models.BeatsStudio3;
@@ -71,6 +74,7 @@ public class ConnectCard implements PodsStatusRepository.Listener {
         modelNames.put(AirPods3.class, "AirPods 3");
         modelNames.put(AirPodsPro.class, "AirPods Pro");
         modelNames.put(AirPodsPro2.class, "AirPods Pro 2");
+        modelNames.put(AirPodsPro3.class, "AirPods Pro 3");
         modelNames.put(AirPodsMax.class, "AirPods Max");
         modelNames.put(BeatsX.class, "Beats X");
         modelNames.put(BeatsFlex.class, "Beats Flex");
@@ -137,8 +141,9 @@ public class ConnectCard implements PodsStatusRepository.Listener {
         params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
         params.y = (int)(24 * context.getResources().getDisplayMetrics().density);
 
-        cardView = LayoutInflater.from(context).inflate(R.layout.connect_card, null, false);
-        applyTheme(cardView);
+        Context themed = inflateContext();
+        cardView = LayoutInflater.from(themed).inflate(R.layout.connect_card, null, false);
+        applyTheme(themed, cardView);
         updateCardView(status);
         cardView.setOnClickListener(v -> {
             try {
@@ -160,11 +165,34 @@ public class ConnectCard implements PodsStatusRepository.Listener {
         scheduleHide();
     }
 
-    private void applyTheme (View v) {
-        // The layout already uses ?attr references; M3 theme inherits from
-        // AppCompat/Material. Since we inflate with the app's context and the
-        // theme is set at application level, ?attr resolves correctly.
-        v.setBackground(ContextCompat.getDrawable(context, R.drawable.connect_card_bg));
+    private void applyTheme (Context themed, View v) {
+        v.setBackground(ContextCompat.getDrawable(themed, R.drawable.connect_card_bg));
+    }
+
+    /**
+     * A context that can inflate connect_card.xml.
+     * <p>
+     * The card is added straight to the WindowManager, so it is inflated from
+     * the application context. An application context carries the platform
+     * default theme rather than the one declared in the manifest, so the
+     * ?attr/ references in the layout (colorPrimary, colorOnSurface,
+     * textAppearance*, ...) fail to resolve, and the card used to disappear as
+     * soon as the AirPods connected, with an UnsupportedOperationException
+     * from ImageView's tint attribute. Wrapping the application context in the
+     * app theme fixes the resolution, and pinning the night mode keeps the
+     * card in step with the in-app theme, which Android 7 cannot do on its
+     * own because it has no system dark mode.
+     */
+    private Context inflateContext () {
+        ContextThemeWrapper wrapper = new ContextThemeWrapper(context, R.style.AppTheme);
+
+        Configuration cfg = new Configuration(context.getResources().getConfiguration());
+        cfg.uiMode = ThemeUtils.isDark(context)
+                ? Configuration.UI_MODE_NIGHT_YES
+                : Configuration.UI_MODE_NIGHT_NO;
+        wrapper.applyOverrideConfiguration(cfg);
+
+        return wrapper;
     }
 
     private void updateCard (PodsStatus status) {
