@@ -41,6 +41,15 @@ public class PodsStatus {
     public PodsStatus () {
     }
 
+    /**
+     * Wraps an existing (already decoded) model in a fresh status, refreshing
+     * the timestamp. Used when battery/ear data arrives over AACP and the
+     * status needs to be re-published without a new beacon.
+     */
+    public PodsStatus (IPods pods) {
+        this.pods = pods;
+    }
+
     public PodsStatus (String status) {
         if (status == null)
             return;

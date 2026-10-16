@@ -22,12 +22,15 @@ import android.provider.Settings;
 import androidx.annotation.RequiresApi;
 
 import com.dosse.airpods.R;
+import com.dosse.airpods.aacp.AacpManager;
+import com.dosse.airpods.aacp.AacpPackets;
 import com.dosse.airpods.notification.AlertManager;
 import com.dosse.airpods.notification.ConnectCard;
 import com.dosse.airpods.notification.NotificationThread;
 import com.dosse.airpods.receivers.BluetoothListener;
 import com.dosse.airpods.receivers.BluetoothReceiver;
 import com.dosse.airpods.receivers.ScreenReceiver;
+import com.dosse.airpods.pods.models.IPods;
 import com.dosse.airpods.utils.ConnectChime;
 import com.dosse.airpods.utils.Logger;
 
@@ -57,6 +60,11 @@ public class PodsService extends Service {
     private AlertManager alertManager = null;
     private ConnectChime connectChime = null;
     private ConnectCard connectCard = null;
+
+    private AacpManager aacpManager = null;
+    private volatile AacpPackets.BatteryInfo lastAacpBattery = null;
+    private volatile int lastNoiseControlMode = -1;
+    private volatile boolean lastConversationAwareness = false;
 
     /**
      * The following method (startAirPodsScanner) creates a bluetooth LE scanner.
@@ -100,7 +108,18 @@ public class PodsService extends Service {
             scanCallback = new PodsStatusScanCallback() {
                 @Override
                 public void onStatus (PodsStatus newStatus) {
-                    earDetection.onStatus(newStatus, getApplicationContext());
+                    // AACP provides faster and more accurate in-ear and
+                    // battery data, so it takes precedence while connected.
+                    boolean aacpActive = aacpManager != null && aacpManager.isConnected();
+
+                    if (!aacpActive)
+                        earDetection.onStatus(newStatus, getApplicationContext());
+
+                    // A beacon carries only 5% steps: keep the exact battery
+                    // that AACP already reported.
+                    if (aacpActive && lastAacpBattery != null && newStatus != null && newStatus.getAirpods() != null)
+                        applyBattery(newStatus.getAirpods(), lastAacpBattery);
+
                     repository.setStatus(newStatus);
                 }
             };
@@ -151,6 +170,54 @@ public class PodsService extends Service {
         repository.addListener(connectChime);
         repository.addListener(connectCard);
 
+        // AACP gives exact battery and instant ear detection. It is entirely
+        // optional: everything degrades to beacon-only data when it fails.
+        aacpManager = new AacpManager();
+        aacpManager.setListener(new AacpManager.Listener() {
+            @Override
+            public void onAacpConnected () {
+                Logger.debug("AACP: connected, switching to exact data");
+            }
+
+            @Override
+            public void onAacpDisconnected () {
+                Logger.debug("AACP: disconnected, falling back to beacons");
+            }
+
+            @Override
+            public void onBattery (AacpPackets.BatteryInfo battery) {
+                lastAacpBattery = battery;
+
+                PodsStatus current = repository.getStatus();
+                if (current == null || current == PodsStatus.DISCONNECTED || current.getAirpods() == null)
+                    return;
+
+                applyBattery(current.getAirpods(), battery);
+
+                // Re-publish around the same model so the notification, the
+                // connect card and the low battery alerts see the new values.
+                repository.setStatus(new PodsStatus(current.getAirpods()));
+            }
+
+            @Override
+            public void onEarDetection (int[] ear) {
+                if (isSinglePodModel())
+                    return; // in-ear detection is meaningless for single pods
+
+                earDetection.onEarCount(AacpPackets.inEarCount(ear), getApplicationContext());
+            }
+
+            @Override
+            public void onNoiseControl (int mode) {
+                lastNoiseControlMode = mode;
+            }
+
+            @Override
+            public void onConversationAwareness (boolean enabled) {
+                lastConversationAwareness = enabled;
+            }
+        });
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             startForeground(101, createBackgroundNotification());
 
@@ -168,6 +235,8 @@ public class PodsService extends Service {
             public void onStop () {
                 // Bluetooth turned off, stop scanner and remove notification.
                 Logger.debug("BT OFF");
+                if (aacpManager != null)
+                    aacpManager.disconnect();
                 repository.setMaybeConnected(false);
                 stopAirPodsScanner();
             }
@@ -179,6 +248,9 @@ public class PodsService extends Service {
                     // Airpods connected, show notification.
                     Logger.debug("ACL CONNECTED");
                     repository.setMaybeConnected(true);
+
+                    if (aacpManager != null)
+                        aacpManager.connect(bluetoothDevice);
                 }
             }
 
@@ -188,6 +260,9 @@ public class PodsService extends Service {
                 if (checkUUID(bluetoothDevice)) {
                     // Airpods disconnected, remove notification but leave the scanner going.
                     Logger.debug("ACL DISCONNECTED");
+                    if (aacpManager != null)
+                        aacpManager.disconnect();
+                    lastAacpBattery = null;
                     repository.setMaybeConnected(false);
                 }
             }
@@ -210,6 +285,9 @@ public class PodsService extends Service {
                 if (checkUUID(device)) {
                     Logger.debug("BT PROXY: AIRPODS ALREADY CONNECTED");
                     repository.setMaybeConnected(true);
+
+                    if (aacpManager != null)
+                        aacpManager.connect(device);
                     return true;
                 }
 
@@ -219,6 +297,9 @@ public class PodsService extends Service {
             @Override
             public void onDisconnect () {
                 Logger.debug("BT PROXY SERVICE DISCONNECTED ");
+                if (aacpManager != null)
+                    aacpManager.disconnect();
+                lastAacpBattery = null;
                 repository.setMaybeConnected(false);
             }
         }, BluetoothProfile.HEADSET);
@@ -270,6 +351,22 @@ public class PodsService extends Service {
         return false;
     }
 
+    /** Applies an AACP battery reading to a model, without republishing it. */
+    private static void applyBattery (IPods pods, AacpPackets.BatteryInfo battery) {
+        if (pods == null || battery == null)
+            return;
+
+        pods.applyExactBattery(
+                battery.hasLeft ? battery.leftPercent : Integer.MIN_VALUE, battery.leftCharging,
+                battery.hasRight ? battery.rightPercent : Integer.MIN_VALUE, battery.rightCharging,
+                battery.hasCase ? battery.casePercent : Integer.MIN_VALUE, battery.caseCharging);
+    }
+
+    private boolean isSinglePodModel () {
+        PodsStatus current = repository.getStatus();
+        return current != null && current.getAirpods() != null && current.getAirpods().isSingle();
+    }
+
     @Override
     public void onDestroy () {
         super.onDestroy();
@@ -284,6 +381,10 @@ public class PodsService extends Service {
         if (connectCard != null) {
             repository.removeListener(connectCard);
             connectCard = null;
+        }
+        if (aacpManager != null) {
+            aacpManager.disconnect();
+            aacpManager = null;
         }
         unregisterBtReceiver();
         unregisterScreenReceiver();

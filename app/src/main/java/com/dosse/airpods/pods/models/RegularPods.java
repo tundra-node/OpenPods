@@ -65,6 +65,29 @@ public class RegularPods implements IPods {
     }
 
     @Override
+    public void applyExactBattery (int leftPercent, boolean leftCharging, int rightPercent, boolean rightCharging, int casePercent, boolean caseCharging) {
+        applyToPod(LEFT, leftPercent, leftCharging);
+        applyToPod(RIGHT, rightPercent, rightCharging);
+        applyToPod(CASE, casePercent, caseCharging);
+    }
+
+    private void applyToPod (int pos, int percent, boolean charging) {
+        if (percent == Integer.MIN_VALUE)
+            return;
+
+        Pod pod = pods[pos];
+
+        if (percent < 0) {
+            pod.setBattery(Pod.DISCONNECTED_STATUS, false, -1);
+            return;
+        }
+
+        // Keep the beacon's 5% step as a fallback, but store the exact value
+        int step = Math.min(percent / 10, Pod.MAX_CONNECTED_STATUS);
+        pod.setBattery(step, charging, percent);
+    }
+
+    @Override
     public String parseStatusForLogger () {
         return String.format(Locale.getDefault(), "Left: %d%s%s Right: %d%s%s Case: %d%s Model: %s",
                 pods[LEFT].getStatus(), pods[LEFT].isCharging() ? "+" : "", pods[LEFT].isInEar() ? "$" : "",
